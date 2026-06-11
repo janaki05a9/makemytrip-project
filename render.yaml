@@ -1,0 +1,11 @@
+
+services:
+  - type: web
+    name: makemytrip-app
+    runtime: java
+    rootDir: make-my-trip-clone-springboot-main/makemytour
+    buildCommand: chmod +x mvnw && ./mvnw clean install -DskipTests
+    startCommand: java -jar target/*.jar
+    envVars:
+      - key: JAVA_VERSION
+        value: 17
