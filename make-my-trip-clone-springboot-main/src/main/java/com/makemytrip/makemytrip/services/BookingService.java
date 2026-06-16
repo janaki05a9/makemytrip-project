@@ -1,16 +1,17 @@
 package com.makemytrip.makemytrip.services;
-import com.makemytrip.makemytrip.models.Users;
-import com.makemytrip.makemytrip.models.Users.Booking;
-import com.makemytrip.makemytrip.models.Flight;
-import com.makemytrip.makemytrip.models.Hotel;
-import com.makemytrip.makemytrip.repositories.UserRepository;
-import com.makemytrip.makemytrip.repositories.FlightRepository;
-import com.makemytrip.makemytrip.repositories.HotelRepository;
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Optional;
+import com.makemytrip.makemytrip.models.Flight;
+import com.makemytrip.makemytrip.models.Hotel;
+import com.makemytrip.makemytrip.models.Users;
+import com.makemytrip.makemytrip.models.Users.Booking;
+import com.makemytrip.makemytrip.repositories.FlightRepository;
+import com.makemytrip.makemytrip.repositories.HotelRepository;
+import com.makemytrip.makemytrip.repositories.UserRepository;
 
 @Service
 public class BookingService {
