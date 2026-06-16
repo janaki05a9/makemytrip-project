@@ -1,0 +1,1 @@
+COPY make-my-trip-clone-springboot-main/ .

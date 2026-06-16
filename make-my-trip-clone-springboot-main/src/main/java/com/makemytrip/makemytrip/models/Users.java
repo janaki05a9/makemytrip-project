@@ -51,8 +51,26 @@ public class Users {
         private String date;
         private int quantity;
         private double totalPrice;
-
+        private String bookingStatus = "confirmed";
+        private String cancellationReason;
+        private String refundStatus = "none";
+        private double refundAmount = 0;
+        private String reservationDateTime; 
         // Getters and Setters
+        public String getBookingStatus() { return bookingStatus; }
+        public void setBookingStatus(String bookingStatus) { this.bookingStatus = bookingStatus; }
+
+        public String getCancellationReason() { return cancellationReason; }
+        public void setCancellationReason(String cancellationReason) { this.cancellationReason = cancellationReason; }
+
+        public String getRefundStatus() { return refundStatus; }
+        public void setRefundStatus(String refundStatus) { this.refundStatus = refundStatus; }
+
+        public double getRefundAmount() { return refundAmount; }
+        public void setRefundAmount(double refundAmount) { this.refundAmount = refundAmount; }
+
+        public String getReservationDateTime() { return reservationDateTime; }
+        public void setReservationDateTime(String reservationDateTime) { this.reservationDateTime = reservationDateTime; }
         public String getType() {
             return type;
         }
