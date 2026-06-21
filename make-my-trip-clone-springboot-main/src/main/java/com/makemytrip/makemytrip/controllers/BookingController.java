@@ -19,4 +19,13 @@ public class BookingController {
     public Users.Booking bookhotel (@RequestParam String userId,@RequestParam String hotelId,@RequestParam int rooms,@RequestParam double price){
         return bookingService.bookhotel(userId,hotelId,rooms,price);
     }
+    @PostMapping("/cancel")
+public ResponseEntity<?> cancelBooking(@RequestParam String userId, @RequestParam String bookingId, @RequestParam String reason){
+    return bookingService.cancelBooking(userId, bookingId, reason);
+}
+
+@GetMapping("/user/{userId}")
+public ResponseEntity<?> getUserBookings(@PathVariable String userId){
+    return bookingService.getUserBookings(userId);
+}
 }

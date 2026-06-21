@@ -36,7 +36,9 @@ const Navbar = () => {
                   ADMIN
                 </Button>
               )}
-
+                <Button variant="ghost" onClick={() => router.push("/my-bookings")}>
+                   My Bookings
+                </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -61,6 +63,9 @@ const Navbar = () => {
                       </p>
                     </div>
                   </DropdownMenuLabel>
+                  <DropdownMenuItem onClick={() => router.push("/my-bookings")}>
+                  <span>My Bookings</span>
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => router.push("/profile")}>
                     <User className="mr-2 h-4 w-4" />

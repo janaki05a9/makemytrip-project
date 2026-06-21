@@ -41,6 +41,7 @@ const SignupDialog = ({trigger}:any) => {
       try {
         const data = await login(email, password);
         dispatch(setUser(data));
+        localStorage.setItem("userId", data.id);
         setopem(false);
         clearform();
       } catch (error) {

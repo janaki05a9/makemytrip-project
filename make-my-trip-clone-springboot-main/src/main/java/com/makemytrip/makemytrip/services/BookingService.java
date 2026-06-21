@@ -1,8 +1,12 @@
 package com.makemytrip.makemytrip.services;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.makemytrip.makemytrip.models.Flight;
@@ -81,4 +85,40 @@ public class BookingService {
         }
         throw new RuntimeException("User or hotel not found");
     }
+ public ResponseEntity<?> getUserBookings(String userId) {
+    Optional<Users> usersOptional = userRepository.findById(userId);
+    if (usersOptional.isEmpty()) return ResponseEntity.badRequest().body("User not found");
+    return ResponseEntity.ok(usersOptional.get().getBookings());
+}  
+public ResponseEntity<?> cancelBooking(String userId, String bookingId, String reason) {
+    Optional<Users> usersOptional = userRepository.findById(userId);
+    if (usersOptional.isEmpty()) return ResponseEntity.badRequest().body("User not found");
+
+    Users user = usersOptional.get();
+    Users.Booking target = null;
+
+    for (Users.Booking b : user.getBookings()) {
+        if (b.getBookingId().equals(bookingId) && b.getBookingStatus().equals("confirmed")) {
+            target = b;
+            break;
+        }
+    }
+
+    if (target == null) return ResponseEntity.badRequest().body("Booking not found");
+
+    LocalDateTime bookedAt = LocalDateTime.parse(target.getReservationDateTime());
+    boolean within24hrs = LocalDateTime.now().isBefore(bookedAt.plusHours(24));
+    double refund = within24hrs ? target.getTotalPrice() * 0.5 : 0.0;
+
+    target.setBookingStatus("cancelled");
+    target.setCancellationReason(reason);
+    target.setRefundAmount(refund);
+    target.setRefundStatus("pending");
+    userRepository.save(user);
+
+    Map<String, Object> res = new HashMap<>();
+    res.put("refundAmount", refund);
+    res.put("refundMessage", within24hrs ? "Refund of ₹" + (int)refund + " in 5-7 business days" : "No refund applicable");
+    return ResponseEntity.ok(res);
+}
 }
