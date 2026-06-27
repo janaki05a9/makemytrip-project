@@ -332,6 +332,12 @@ const BookFlightPage = () => {
                   <Info className="w-4 h-4 mr-1" />
                   View Fare Rules
                 </button>
+                <button
+                  onClick={() => router.push(`/reviews?targetId=${flight.id}&targetType=Flight`)}
+                  className="text-green-600 text-sm font-medium hover:text-green-700 flex items-center">
+                  <Star className="w-4 h-4 mr-1" />
+                    View Reviews
+                </button>
               </div>
 
               <div className="flex items-center space-x-4 mb-6">

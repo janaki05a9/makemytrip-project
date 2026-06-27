@@ -42,12 +42,12 @@ const SignupDialog = ({trigger}:any) => {
         const data = await login(email, password);
         dispatch(setUser(data));
         localStorage.setItem("userId", data.id);
+        localStorage.setItem("userName", data.firstName);
         setopem(false);
         clearform();
       } catch (error) {
         console.log(error);
-      }
-    }
+      }    }
   };
   const clearform = () => {
     setFirstName("");
