@@ -27,7 +27,7 @@ export default function Reviews() {
 
   const submitReview = async () => {
     if (!rating || !comment) return alert("Please give rating and comment");
-    await fetch(`${BACKEND}/review/add?userId=${userId}&userName=${userName}&targetId=${targetId}&targetType=${targetType}&rating=${rating}&comment=${encodeURIComponent(comment)}&photoUrl=${encodeURIComponent(photo)}`, { method: "POST" });
+    await fetch(`${BACKEND}/review/add?userId=${userId}&userName=${userName}&targetId=${targetId}&targetType=${targetType}&rating=${rating}&comment=${encodeURIComponent(comment)}&photoUrl=${encodeURIComponent(photoName)}`, { method: "POST" });
     setComment("");
     setRating(0);
     fetch(`${BACKEND}/review/get/${targetId}?sortBy=${sortBy}`).then(r => r.json()).then(setReviews);
