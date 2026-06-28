@@ -11,12 +11,15 @@ export default function Reviews() {
   const [comment, setComment] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [replyText, setReplyText] = useState<{[key: string]: string}>({});
-
-  const userId = localStorage.getItem("userId");
-  const userName = localStorage.getItem("userName") || "User";
+  const [photo, setPhoto] = useState("");
+  const [photoName, setPhotoName] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
+  const [userName, setUserName] = useState("User"); 
 
   useEffect(() => {
     if (!targetId) return;
+    setUserId(localStorage.getItem("userId"));
+    setUserName(localStorage.getItem("userName") || "User");
     fetch(`${BACKEND}/review/get/${targetId}?sortBy=${sortBy}`)
       .then(r => r.json())
       .then(setReviews);
@@ -24,7 +27,7 @@ export default function Reviews() {
 
   const submitReview = async () => {
     if (!rating || !comment) return alert("Please give rating and comment");
-    await fetch(`${BACKEND}/review/add?userId=${userId}&userName=${userName}&targetId=${targetId}&targetType=${targetType}&rating=${rating}&comment=${encodeURIComponent(comment)}`, { method: "POST" });
+    await fetch(`${BACKEND}/review/add?userId=${userId}&userName=${userName}&targetId=${targetId}&targetType=${targetType}&rating=${rating}&comment=${encodeURIComponent(comment)}&photoUrl=${encodeURIComponent(photo)}`, { method: "POST" });
     setComment("");
     setRating(0);
     fetch(`${BACKEND}/review/get/${targetId}?sortBy=${sortBy}`).then(r => r.json()).then(setReviews);
@@ -68,7 +71,20 @@ export default function Reviews() {
           ))}
         </div>
         <textarea value={comment} onChange={e => setComment(e.target.value)} placeholder="Write your review..." className="w-full border rounded p-2 text-sm mb-2" rows={3} />
-        <button onClick={submitReview} className="px-4 py-2 bg-blue-600 text-white rounded text-sm">Submit Review</button>
+        <div className="mb-2">
+        <label className="text-sm text-gray-600">Upload Photo (optional)</label>
+        <input type="file" accept="image/*" onChange={e => {
+          const file = e.target.files?.[0];
+          if (file) {
+           const reader = new FileReader();
+           reader.onloadend = () => setPhoto(reader.result as string);
+           reader.readAsDataURL(file);
+           setPhotoName(file.name);
+         }
+       }} className="w-full border rounded p-1 text-sm mt-1" />
+      {photo && <img src={photo} alt="preview" className="mt-2 h-24 rounded" />}
+       </div> 
+      <button onClick={submitReview} className="px-4 py-2 bg-blue-600 text-white rounded text-sm">Submit Review</button>
       </div>
 
       {/* Reviews List */}
@@ -87,6 +103,7 @@ export default function Reviews() {
             <p className="text-xs text-gray-400">{r.createdAt?.slice(0,10)}</p>
           </div>
           <p className="text-sm mt-2">{r.comment}</p>
+          {r.photoUrl && <img src={r.photoUrl} alt="review photo" className="mt-2 h-32 rounded" />}
 
           <div className="flex gap-3 mt-2">
             <button onClick={() => markHelpful(r.id)} className="text-xs text-blue-600">👍 Helpful ({r.helpfulCount})</button>

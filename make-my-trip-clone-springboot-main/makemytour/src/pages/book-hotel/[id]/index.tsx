@@ -446,8 +446,8 @@ const BookHotelPage = () => {
                     </div>
                   </div>
                 </div>
-                <a href="#" className="text-blue-500">
-                  All Reviews
+                <a href={`/reviews?targetId=${hotel?.id}&targetType=Hotel`} className="text-blue-500">
+                All Reviews
                 </a>
               </div>
             </div>
