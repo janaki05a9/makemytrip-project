@@ -37,7 +37,11 @@ const Navbar = () => {
                 </Button>
               )}
                 <Button variant="ghost" onClick={() => router.push("/my-bookings")}>
-                   My Bookings
+                  My Bookings
+                </Button>
+
+                <Button variant="ghost" onClick={() => router.push("/flight-status")}>
+                 Flight Status
                 </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
